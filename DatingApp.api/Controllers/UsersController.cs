@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DatingApp.api.Data;
 using DatingApp.api.DTO;
+using DatingApp.api.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DatingApp.api.Controllers
 {
+    [ServiceFilter(typeof(LogUserActivity))]
     [Route("api/[controller]")]
     [ApiController]
     public class UsersController : ControllerBase
