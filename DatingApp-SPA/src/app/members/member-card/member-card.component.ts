@@ -1,5 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { User } from 'src/app/_models/user';
+import { AuthService } from 'src/app/_services/auth.service';
+import { UserService } from 'src/app/_services/user.service';
+import { AlertifyService } from 'src/app/_services/alertify.service';
 
 @Component({
     selector: 'app-member-card',
@@ -9,12 +12,20 @@ import { User } from 'src/app/_models/user';
 /** member-card component*/
 export class MemberCardComponent implements OnInit {
   @Input() user: User;  
-    /** member-card ctor */
-  constructor() {
+  /** member-card ctor */
+  constructor(private authService: AuthService, private userService: UserService, private alertify: AlertifyService) {
 
   }
 
   ngOnInit(): void {
     
+  }
+
+  sendLike(id: number) {
+    this.userService.sendLike(this.authService.decodedToken.nameid, id).subscribe(data => {
+      this.alertify.success('You liked: ' + this.user.knownAs);
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 }
